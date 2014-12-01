@@ -21,7 +21,7 @@ class DeviseController < Devise.parent_controller.constantize
   def resource_name
     devise_mapping.name
   end
-  alias :scope_name :resource_name
+  alias_method :scope_name, :resource_name
 
   # Proxy to devise map class
   def resource_class
