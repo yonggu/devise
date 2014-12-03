@@ -111,7 +111,7 @@ class DatabaseAuthenticatableTest < ActiveSupport::TestCase
   test 'should add an error to current password when it is blank' do
     user = create_user
     assert_not user.update_with_password(:password => 'pass321',
-      :password_confirmation => 'pass321')
+                                         :password_confirmation => 'pass321')
     assert user.reload.valid_password?('123456')
     assert_match "can't be blank", user.errors[:current_password].join
   end
