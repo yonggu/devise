@@ -312,7 +312,7 @@ module ActionDispatch::Routing
         yield
       end
     end
-    alias :as :devise_scope
+    alias_method :as, :devise_scope
 
     protected
 

@@ -12,7 +12,7 @@ class ActiveSupport::TestCase
   def assert_not_blank(assertion)
     assert !assertion.blank?
   end
-  alias :assert_present :assert_not_blank
+  alias_method :assert_present, :assert_not_blank
 
   def assert_email_sent(address = nil, &block)
     assert_difference('ActionMailer::Base.deliveries.size') { yield }

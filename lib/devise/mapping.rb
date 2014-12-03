@@ -25,7 +25,7 @@ module Devise
     attr_reader :singular, :scoped_path, :path, :controllers, :path_names,
                 :class_name, :sign_out_via, :format, :used_routes, :used_helpers, :failure_app
 
-    alias :name :singular
+    alias_method :name, :singular
 
     # Receives an object and find a scope for it. If a scope cannot be found,
     # raises an error. If a symbol is given, it's considered to be the scope.
