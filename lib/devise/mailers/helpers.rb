@@ -79,7 +79,7 @@ module Devise
       #
       def translate(mapping, key)
         I18n.t(:"#{mapping.name}_subject", :scope => [:devise, :mailer, key],
-          :default => [:subject, key.to_s.humanize])
+                                           :default => [:subject, key.to_s.humanize])
       end
     end
   end
