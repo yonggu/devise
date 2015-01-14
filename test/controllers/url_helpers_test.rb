@@ -27,7 +27,6 @@ class RoutesTest < ActionController::TestCase
                  send(:"#{prepend_path}user_#{name}_url")
   end
 
-
   test 'should alias session to mapped user session' do
     assert_path_and_url :session
     assert_path_and_url :session, :new

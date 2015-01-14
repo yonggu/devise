@@ -1,6 +1,5 @@
 require 'test_helper'
 
-
 class OmniauthableIntegrationTest < ActionController::IntegrationTest
   FACEBOOK_INFO = {
     "id" => '12345',

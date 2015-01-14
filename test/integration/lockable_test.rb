@@ -160,7 +160,6 @@ class LockTest < ActionController::IntegrationTest
     assert response.body.include? %(<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<user>)
   end
 
-
   test 'user with invalid unlock token should not be able to unlock the account via XML request' do
     get user_unlock_path(:format => 'xml', :unlock_token => 'invalid_token')
     assert_response :unprocessable_entity
