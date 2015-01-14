@@ -82,7 +82,7 @@ module Devise
         self.class.cookie_options
       end
 
-    protected
+      protected
 
       # Generate a timestamp if extend_remember_period is true, if no remember_token
       # exists, or if an existing remember token has expired.

@@ -13,7 +13,7 @@ module Devise
         digest
       end
 
-    private
+      private
 
       # Generate a SHA1 digest joining args. Generated token is something like
       #   --arg1--arg2--arg3--argN--

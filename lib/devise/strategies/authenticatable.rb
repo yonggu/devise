@@ -16,7 +16,7 @@ module Devise
         valid_for_params_auth? || valid_for_http_auth?
       end
 
-    private
+      private
 
       # Simply invokes valid_for_authentication? with the given block and deal with the result.
       def validate(resource, &block)

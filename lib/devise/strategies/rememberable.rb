@@ -27,7 +27,7 @@ module Devise
         end
       end
 
-    private
+      private
 
       def decorate(resource)
         super

@@ -99,7 +99,7 @@ module Devise
         self.encrypted_password[0,29] if self.encrypted_password
       end
 
-    protected
+      protected
 
       # Digests the password using bcrypt.
       def password_digest(password)

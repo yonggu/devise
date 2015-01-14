@@ -39,7 +39,7 @@ module Devise
         Devise.secure_compare(password_digest(incoming_password), self.encrypted_password)
       end
 
-    protected
+      protected
 
       # Digests the password using the configured encryptor.
       def password_digest(password)

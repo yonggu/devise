@@ -57,7 +57,7 @@ module Devise
       redirect_to redirect_url
     end
 
-  protected
+    protected
 
     def i18n_message(default = nil)
       message = warden.message || warden_options[:message] || default || :unauthenticated

@@ -25,7 +25,7 @@ module Devise
         end
       end
 
-    private
+      private
 
       # Token Authenticatable can be authenticated with params in any controller and any verb.
       def valid_params_request?
