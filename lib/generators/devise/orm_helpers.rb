@@ -12,7 +12,7 @@ CONTENT
       end
 
       def model_exists?
-        File.exists?(File.join(destination_root, model_path))
+        File.exist?(File.join(destination_root, model_path))
       end
       
       def migration_exists?(table_name)
