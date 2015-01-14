@@ -72,19 +72,19 @@ class ActionDispatch::IntegrationTest
 
   protected
 
-    def visit_with_option(given, default)
-      case given
-      when String
-        visit given
-      when FalseClass
-        # Do nothing
-      else
-        visit default
-      end
+  def visit_with_option(given, default)
+    case given
+    when String
+      visit given
+    when FalseClass
+      # Do nothing
+    else
+      visit default
     end
+  end
 
-    def prepend_host(url)
-      url = "http://#{request.host}#{url}" if url[0] == ?/
-      url
-    end
+  def prepend_host(url)
+    url = "http://#{request.host}#{url}" if url[0] == ?/
+    url
+  end
 end

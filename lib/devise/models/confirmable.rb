@@ -110,9 +110,9 @@ module Devise
       protected
 
         # Callback to overwrite if confirmation is required or not.
-        def confirmation_required?
-          !confirmed?
-        end
+      def confirmation_required?
+        !confirmed?
+      end
 
         # Checks if the confirmation for the user is within the limit time.
         # We do this by calculating if the difference between today and the
@@ -133,51 +133,51 @@ module Devise
         #   # allow_unconfirmed_access_for = 0.days
         #   confirmation_period_valid?   # will always return false
         #
-        def confirmation_period_valid?
-          confirmation_sent_at && confirmation_sent_at.utc >= self.class.allow_unconfirmed_access_for.ago
-        end
+      def confirmation_period_valid?
+        confirmation_sent_at && confirmation_sent_at.utc >= self.class.allow_unconfirmed_access_for.ago
+      end
 
         # Checks whether the record requires any confirmation.
-        def pending_any_confirmation
-          if !confirmed? || pending_reconfirmation?
-            yield
-          else
-            self.errors.add(:email, :already_confirmed)
-            false
-          end
+      def pending_any_confirmation
+        if !confirmed? || pending_reconfirmation?
+          yield
+        else
+          self.errors.add(:email, :already_confirmed)
+          false
         end
+      end
 
         # Generates a new random token for confirmation, and stores the time
         # this token is being generated
-        def generate_confirmation_token
-          self.confirmation_token = self.class.confirmation_token
-          self.confirmation_sent_at = Time.now.utc
-        end
+      def generate_confirmation_token
+        self.confirmation_token = self.class.confirmation_token
+        self.confirmation_sent_at = Time.now.utc
+      end
 
-        def generate_confirmation_token!
-          generate_confirmation_token && save(:validate => false)
-        end
+      def generate_confirmation_token!
+        generate_confirmation_token && save(:validate => false)
+      end
 
-        def after_password_reset
-          super
-          confirm! unless confirmed?
-        end
+      def after_password_reset
+        super
+        confirm! unless confirmed?
+      end
 
-        def postpone_email_change_until_confirmation
-          @reconfirmation_required = true
-          self.unconfirmed_email = self.email
-          self.email = self.email_was
-        end
+      def postpone_email_change_until_confirmation
+        @reconfirmation_required = true
+        self.unconfirmed_email = self.email
+        self.email = self.email_was
+      end
 
-        def postpone_email_change?
-          postpone = self.class.reconfirmable && email_changed? && !@bypass_postpone
-          @bypass_postpone = nil
-          postpone
-        end
+      def postpone_email_change?
+        postpone = self.class.reconfirmable && email_changed? && !@bypass_postpone
+        @bypass_postpone = nil
+        postpone
+      end
 
-        def reconfirmation_required?
-          self.class.reconfirmable && @reconfirmation_required
-        end
+      def reconfirmation_required?
+        self.class.reconfirmable && @reconfirmation_required
+      end
 
       module ClassMethods
         # Attempt to find a user by its email. If a record is found, send new

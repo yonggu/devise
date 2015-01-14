@@ -98,34 +98,34 @@ module Devise
 
       protected
 
-        def attempts_exceeded?
-          self.failed_attempts > self.class.maximum_attempts
-        end
+      def attempts_exceeded?
+        self.failed_attempts > self.class.maximum_attempts
+      end
 
         # Generates unlock token
-        def generate_unlock_token
-          self.unlock_token = self.class.unlock_token
-        end
+      def generate_unlock_token
+        self.unlock_token = self.class.unlock_token
+      end
 
         # Tells if the lock is expired if :time unlock strategy is active
-        def lock_expired?
-          if unlock_strategy_enabled?(:time)
-            locked_at && locked_at < self.class.unlock_in.ago
-          else
-            false
-          end
+      def lock_expired?
+        if unlock_strategy_enabled?(:time)
+          locked_at && locked_at < self.class.unlock_in.ago
+        else
+          false
         end
+      end
 
         # Checks whether the record is locked or not, yielding to the block
         # if it's locked, otherwise adds an error to email.
-        def if_access_locked
-          if access_locked?
-            yield
-          else
-            self.errors.add(:email, :not_locked)
-            false
-          end
+      def if_access_locked
+        if access_locked?
+          yield
+        else
+          self.errors.add(:email, :not_locked)
+          false
         end
+      end
 
       module ClassMethods
         # Attempt to find a user by its email. If a record is found, send new

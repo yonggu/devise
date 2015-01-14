@@ -316,74 +316,74 @@ module ActionDispatch::Routing
 
     protected
 
-      def devise_session(mapping, controllers) #:nodoc:
-        resource :session, :only => [], :controller => controllers[:sessions], :path => "" do
-          get   :new,     :path => mapping.path_names[:sign_in],  :as => "new"
-          post  :create,  :path => mapping.path_names[:sign_in]
-          match :destroy, :path => mapping.path_names[:sign_out], :as => "destroy", :via => mapping.sign_out_via
-        end
+    def devise_session(mapping, controllers) #:nodoc:
+      resource :session, :only => [], :controller => controllers[:sessions], :path => "" do
+        get   :new,     :path => mapping.path_names[:sign_in],  :as => "new"
+        post  :create,  :path => mapping.path_names[:sign_in]
+        match :destroy, :path => mapping.path_names[:sign_out], :as => "destroy", :via => mapping.sign_out_via
+      end
+    end
+
+    def devise_password(mapping, controllers) #:nodoc:
+      resource :password, :only => [:new, :create, :edit, :update],
+        :path => mapping.path_names[:password], :controller => controllers[:passwords]
+    end
+
+    def devise_confirmation(mapping, controllers) #:nodoc:
+      resource :confirmation, :only => [:new, :create, :show],
+        :path => mapping.path_names[:confirmation], :controller => controllers[:confirmations]
+    end
+
+    def devise_unlock(mapping, controllers) #:nodoc:
+      if mapping.to.unlock_strategy_enabled?(:email)
+        resource :unlock, :only => [:new, :create, :show],
+          :path => mapping.path_names[:unlock], :controller => controllers[:unlocks]
+      end
+    end
+
+    def devise_registration(mapping, controllers) #:nodoc:
+      path_names = {
+        :new => mapping.path_names[:sign_up],
+        :cancel => mapping.path_names[:cancel]
+      }
+
+      resource :registration, :only => [:new, :create, :edit, :update, :destroy], :path => mapping.path_names[:registration],
+               :path_names => path_names, :controller => controllers[:registrations] do
+        get :cancel
+      end
+    end
+
+    def devise_omniauth_callback(mapping, controllers) #:nodoc:
+      path, @scope[:path] = @scope[:path], nil
+      path_prefix = "/#{mapping.path}/auth".squeeze("/")
+
+      if ::OmniAuth.config.path_prefix && ::OmniAuth.config.path_prefix != path_prefix
+        raise "You can only add :omniauthable behavior to one Devise model"
+      else
+        ::OmniAuth.config.path_prefix = path_prefix
       end
 
-      def devise_password(mapping, controllers) #:nodoc:
-        resource :password, :only => [:new, :create, :edit, :update],
-          :path => mapping.path_names[:password], :controller => controllers[:passwords]
-      end
+      match "#{path_prefix}/:action/callback", :constraints => { :action => Regexp.union(mapping.to.omniauth_providers.map(&:to_s)) },
+        :to => controllers[:omniauth_callbacks], :as => :omniauth_callback
+    ensure
+      @scope[:path] = path
+    end
 
-      def devise_confirmation(mapping, controllers) #:nodoc:
-        resource :confirmation, :only => [:new, :create, :show],
-          :path => mapping.path_names[:confirmation], :controller => controllers[:confirmations]
-      end
+    def with_devise_exclusive_scope(new_path, new_as, options) #:nodoc:
+      old_as, old_path, old_module, old_constraints, old_defaults, old_options =
+        *@scope.values_at(:as, :path, :module, :constraints, :defaults, :options)
+      @scope[:as], @scope[:path], @scope[:module], @scope[:constraints], @scope[:defaults], @scope[:options] =
+        new_as, new_path, nil, *options.values_at(:constraints, :defaults, :options)
+      yield
+    ensure
+      @scope[:as], @scope[:path], @scope[:module], @scope[:constraints], @scope[:defaults], @scope[:options] =
+        old_as, old_path, old_module, old_constraints, old_defaults, old_options
+    end
 
-      def devise_unlock(mapping, controllers) #:nodoc:
-        if mapping.to.unlock_strategy_enabled?(:email)
-          resource :unlock, :only => [:new, :create, :show],
-            :path => mapping.path_names[:unlock], :controller => controllers[:unlocks]
-        end
-      end
-
-      def devise_registration(mapping, controllers) #:nodoc:
-        path_names = {
-          :new => mapping.path_names[:sign_up],
-          :cancel => mapping.path_names[:cancel]
-        }
-
-        resource :registration, :only => [:new, :create, :edit, :update, :destroy], :path => mapping.path_names[:registration],
-                 :path_names => path_names, :controller => controllers[:registrations] do
-          get :cancel
-        end
-      end
-
-      def devise_omniauth_callback(mapping, controllers) #:nodoc:
-        path, @scope[:path] = @scope[:path], nil
-        path_prefix = "/#{mapping.path}/auth".squeeze("/")
-
-        if ::OmniAuth.config.path_prefix && ::OmniAuth.config.path_prefix != path_prefix
-          raise "You can only add :omniauthable behavior to one Devise model"
-        else
-          ::OmniAuth.config.path_prefix = path_prefix
-        end
-
-        match "#{path_prefix}/:action/callback", :constraints => { :action => Regexp.union(mapping.to.omniauth_providers.map(&:to_s)) },
-          :to => controllers[:omniauth_callbacks], :as => :omniauth_callback
-      ensure
-        @scope[:path] = path
-      end
-
-      def with_devise_exclusive_scope(new_path, new_as, options) #:nodoc:
-        old_as, old_path, old_module, old_constraints, old_defaults, old_options =
-          *@scope.values_at(:as, :path, :module, :constraints, :defaults, :options)
-        @scope[:as], @scope[:path], @scope[:module], @scope[:constraints], @scope[:defaults], @scope[:options] =
-          new_as, new_path, nil, *options.values_at(:constraints, :defaults, :options)
-        yield
-      ensure
-        @scope[:as], @scope[:path], @scope[:module], @scope[:constraints], @scope[:defaults], @scope[:options] =
-          old_as, old_path, old_module, old_constraints, old_defaults, old_options
-      end
-
-      def raise_no_devise_method_error!(klass) #:nodoc:
-        raise "#{klass} does not respond to 'devise' method. This usually means you haven't " \
-          "loaded your ORM file or it's being loaded too late. To fix it, be sure to require 'devise/orm/YOUR_ORM' " \
-          "inside 'config/initializers/devise.rb' or before your application definition in 'config/application.rb'"
-      end
+    def raise_no_devise_method_error!(klass) #:nodoc:
+      raise "#{klass} does not respond to 'devise' method. This usually means you haven't " \
+        "loaded your ORM file or it's being loaded too late. To fix it, be sure to require 'devise/orm/YOUR_ORM' " \
+        "inside 'config/initializers/devise.rb' or before your application definition in 'config/application.rb'"
+    end
   end
 end
