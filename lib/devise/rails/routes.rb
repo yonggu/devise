@@ -197,7 +197,7 @@ module ActionDispatch::Routing
           raise_no_devise_method_error!(mapping.class_name) unless mapping.to.respond_to?(:devise)
         rescue NameError => e
           raise unless mapping.class_name == resource.to_s.classify
-          warn "[WARNING] You provided devise_for #{resource.inspect} but there is " <<
+          warn "[WARNING] You provided devise_for #{resource.inspect} but there is " \
             "no model #{mapping.class_name} defined in your application"
           next
         rescue NoMethodError => e
