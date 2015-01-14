@@ -2,7 +2,6 @@ module Devise
   # Holds devise schema information. To use it, just include its methods
   # and overwrite the apply_schema method.
   module Schema
-
     # Creates encrypted_password, and email when it is used as an authentication
     # key (default).
     #

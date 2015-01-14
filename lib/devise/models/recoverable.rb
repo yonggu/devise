@@ -1,6 +1,5 @@
 module Devise
   module Models
-
     # Recoverable takes care of reseting the user password and send reset instructions.
     #
     # ==Options
