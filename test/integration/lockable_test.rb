@@ -108,7 +108,6 @@ class LockTest < ActionController::IntegrationTest
     store_translations :en, :devise => {
         :failure => {:user => {:locked => "You are locked!"}}
     } do
-
       user = create_user(:locked => true)
       user.failed_attempts = User.maximum_attempts + 1
       user.save!
@@ -122,7 +121,6 @@ class LockTest < ActionController::IntegrationTest
     store_translations :en, :devise => {
         :failure => {:user => {:locked => "You are locked!"}}
     } do
-
       user = create_user(:locked => true)
       user.failed_attempts = User.maximum_attempts + 1
       user.save!
@@ -217,7 +215,6 @@ class LockTest < ActionController::IntegrationTest
       assert_current_url "/users/sign_in"
 
       assert_contain "If your account exists, you will receive an email with instructions about how to unlock it in a few minutes."
-
     end
   end
 
