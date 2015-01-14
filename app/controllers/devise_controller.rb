@@ -88,7 +88,7 @@ MESSAGE
     no_input = devise_mapping.no_input_strategies
 
     authenticated = if no_input.present?
-      args = no_input.dup.push :scope => resource_name
+                      args = no_input.dup.push :scope => resource_name
       warden.authenticate?(*args)
     else
       warden.authenticated?(resource_name)
@@ -106,10 +106,10 @@ MESSAGE
   # and instructions were sent.
   def successfully_sent?(resource)
     notice = if Devise.paranoid
-      resource.errors.clear
+               resource.errors.clear
       :send_paranoid_instructions
     elsif resource.errors.empty?
-      :send_instructions
+               :send_instructions
     end
 
     if notice
@@ -161,7 +161,7 @@ MESSAGE
   # Override prefixes to consider the scoped view.
   def _prefixes #:nodoc:
     @_prefixes ||= if self.class.scoped_views?
-      super.unshift("#{devise_mapping.scoped_path}/#{controller_name}")
+                     super.unshift("#{devise_mapping.scoped_path}/#{controller_name}")
     else
       super
     end
