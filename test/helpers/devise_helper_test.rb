@@ -5,14 +5,14 @@ class DeviseHelperTest < ActionController::IntegrationTest
     model_labels = { :models => { :user => "utilisateur" } }
 
     I18n.backend.store_translations :fr,
-    {
-      :errors => { :messages => { :not_saved => {
-        :one => "Erreur lors de l'enregistrement de '%{resource}': 1 erreur.",
-        :other => "Erreur lors de l'enregistrement de '%{resource}': %{count} erreurs."
-      } } },
-      :activerecord => model_labels,
-      :mongoid => model_labels
-    }
+                                    {
+                                      :errors => { :messages => { :not_saved => {
+                                        :one => "Erreur lors de l'enregistrement de '%{resource}': 1 erreur.",
+                                        :other => "Erreur lors de l'enregistrement de '%{resource}': %{count} erreurs."
+                                      } } },
+                                      :activerecord => model_labels,
+                                      :mongoid => model_labels
+                                    }
 
     I18n.locale = 'fr'
   end

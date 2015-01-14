@@ -101,7 +101,7 @@ module Devise
 
       module ClassMethods
         Devise::Models.config(self, :authentication_keys, :request_keys, :strip_whitespace_keys,
-          :case_insensitive_keys, :http_authenticatable, :params_authenticatable, :skip_session_storage)
+                              :case_insensitive_keys, :http_authenticatable, :params_authenticatable, :skip_session_storage)
 
         def serialize_into_session(record)
           [record.to_key, record.authenticatable_salt]
