@@ -84,7 +84,7 @@ class ActionDispatch::IntegrationTest
     end
 
     def prepend_host(url)
-      url = "http://#{request.host}#{url}" if url[0] == ?/
+      url = "http://#{request.host}#{url}" if url[0] == '/'
       url
     end
 end

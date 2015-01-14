@@ -11,7 +11,6 @@
 # It's strongly recommended to check this file into your version control system.
 
 ActiveRecord::Schema.define(:version => 20100401102949) do
-
   create_table "admins", :force => true do |t|
     t.string   "email"
     t.string   "encrypted_password",   :limit => 128
@@ -48,5 +47,4 @@ ActiveRecord::Schema.define(:version => 20100401102949) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
 end
